@@ -1,0 +1,25 @@
+<button  class="boton" mat-button routerLink="/Home">Inicio</button>
+<div class="container">
+    
+        
+    <form [formGroup]="form" (submit)="send()">
+        <div>
+            <label for="text">Letra</label>
+            <input type="text" id="text" formControlName="text">
+        </div>
+        
+        <div>
+            <button class="boton" [disabled]="form.invalid">Send</button>
+        </div>
+        
+        <div class="word">
+            <div  *ngFor="let charac of result">
+                <p *ngIf="!charac.validation">__</p>
+                <p *ngIf="charac.validation">{{charac.word}}</p>
+            </div> 
+        </div>
+       
+    </form>
+
+   
+</div>

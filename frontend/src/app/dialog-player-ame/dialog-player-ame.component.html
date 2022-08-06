@@ -1,0 +1,11 @@
+
+<div class="form__group field">
+    <label for="name" class="form__label">Nombre</label>
+    <input type="text"  class="form__field" placeholder="Name"  [(ngModel)]="data" >
+    
+    </div>
+
+<div mat-dialog-actions class="buttons">
+    <button mat-button (click)="cancelar()" style="background-color: #e16259" >Cancelar</button>
+    <button mat-button (click)="send()" style="background-color: #a9e159" cdkFocusInitial>Confirmar</button>
+</div>

@@ -1,0 +1,12 @@
+<button class="boton" mat-button routerLink="/Home">Inicio</button>
+<div class="container">
+    <button  class="boton" (click)="Piedra()">Piedra</button>
+    <button  class="boton" (click)="Papel()">Papel</button>
+    <button  class="boton" (click)="Tijera()">Tijera</button>
+ 
+   
+</div>
+
+<div style="background-color:red; color:  white;" *ngIf="resultGame != null" class="container">
+    <p>{{resultGame.result}}</p>
+</div>

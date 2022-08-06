@@ -1,0 +1,41 @@
+<button  mat-button class="boton"  routerLink="/Home">Inicio</button>
+<div class="container">
+    <div *ngIf="!vacasCantidad">
+        
+    <form [formGroup]="form" (submit)="send()">
+        <div>
+            <label for="Vacas">Vaca</label>
+            <input type="number" id="Vacas" formControlName="Vacas">
+        </div>
+        <p *ngIf="form.invalid">El valo de las vacas debe ser mayor a 2 y menor a 50</p>
+        <div>
+            <button class="boton" [disabled]="form.invalid">Enviar</button>
+        </div>
+    </form>
+</div>
+    <div *ngIf="vacasCantidad && end">
+        <form [formGroup]="formCantidad" (submit)="sendMilk()">
+            <p>Ingresa la cantidad de leche del dia {{dia}} para la vaca {{cantVaca}}</p>
+            <div>
+                <label for="Cantidad">Leche</label>
+                <input type="number" id="Cantidad" formControlName="Cantidad" >
+            </div>
+            <p *ngIf="formCantidad.invalid">La cantidad de leche debe ser mayor a 0.0 y menor a 11.9</p>
+            <div>
+                <button class="boton" [disabled]="formCantidad.invalid">Registrar</button>
+            </div>
+        </form>
+    </div>
+    
+<div *ngIf="result!=null">
+    <p>Producido por dia</p>
+    <p>{{result.total}}</p>
+    <p>Dia que mas se produjo y dia que menos se produjo</p>
+    <p>{{result.max}}</p>
+    <p>Vaca que mas produjo por dia</p>
+    <p>{{result.perDay}}</p>
+   
+</div>
+
+</div>
+

@@ -1,0 +1,46 @@
+input.ng-invalid.ng-touched {
+    border-color: red;
+}
+
+input.ng-valid.ng-touched 
+{
+    border-color:green
+}
+.container {
+    display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 200px;
+     margin-top: 10%;
+     width: 100%;
+   }
+
+.boton {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 18px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    margin: 2%;
+  }
+
+  input{
+    display: block;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 400px;
+    margin-bottom: 10px;
+  }
+
+  .word{
+    display: flex;
+    gap: 20px;
+  }
