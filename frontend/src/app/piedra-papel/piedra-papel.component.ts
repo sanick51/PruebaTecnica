@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalConstants } from 'src/environments/global-constants';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPlayerAmeComponent } from '../dialog-player-ame/dialog-player-ame.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-piedra-papel',
@@ -12,7 +13,11 @@ import { DialogPlayerAmeComponent } from '../dialog-player-ame/dialog-player-ame
 export class PiedraPapelComponent implements OnInit {
   resultGame!: game ;
   selection = "";
-  constructor(public http: HttpClient, public dialogEdit:MatDialog  ) { }
+  player = localStorage.getItem("Player");
+  vidas = Number(localStorage.getItem('Vidas'));
+  puntuacion = Number(localStorage.getItem('Puntuacion'));
+
+  constructor(public http: HttpClient, public dialogEdit:MatDialog , private router: Router  ) { }
 
   ngOnInit(): void {
     if(localStorage.getItem("Player") == null){
@@ -33,8 +38,8 @@ export class PiedraPapelComponent implements OnInit {
   requestResults(result: string){
     this.http.post<game>(GlobalConstants.API+"/piedra-papel", {value: result}).subscribe(
       (data:game) => {
+        console.log(data);
         this.resultGame = data;
-        console.log(this.resultGame.result);
         if(this.resultGame.result == "Ganaste"){
           this.addPuntuacion();
         }else if(this.resultGame.result == "Perdiste"){
@@ -45,15 +50,28 @@ export class PiedraPapelComponent implements OnInit {
   }
 
   addPuntuacion(){
+    this.puntuacion += 100;
     let myNumber = Number(localStorage.getItem('Puntuacion'));
     myNumber = myNumber + 1000;
     localStorage.setItem('Puntuacion', myNumber.toString());
   }
 
   restPuntuacion(){
+    this.vidas--;
     let myNumber = Number(localStorage.getItem('Vidas'));
     myNumber--;
+    if(myNumber == 0){
+      alert("Perdiste gracias por jugar obtuviste " + this.puntuacion + " puntos");
+      this.router.navigate(['/Home']);
+      localStorage.clear();
+      this.http.post(GlobalConstants.API+"/player",{name: this.player , score: this.puntuacion}).subscribe(
+        (data:any) => {
+          
+        }
+      );
+    }
     localStorage.setItem('Vidas', myNumber.toString());
+    
   }
 
   openDialog(): void {

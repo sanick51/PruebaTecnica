@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalConstants } from 'src/environments/global-constants';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPlayerAmeComponent } from '../dialog-player-ame/dialog-player-ame.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ahorcado',
@@ -17,9 +18,11 @@ import { DialogPlayerAmeComponent } from '../dialog-player-ame/dialog-player-ame
 export class AhorcadoComponent implements OnInit {
   public form!: FormGroup;
   word = "";
-  intentos = 5;
   result : wordArray[] = [];
-  constructor(private formBuilder: FormBuilder ,public http: HttpClient , public dialogEdit:MatDialog ) { }
+  constructor(private formBuilder: FormBuilder ,public http: HttpClient , public dialogEdit:MatDialog , private router: Router) { }
+  player = localStorage.getItem("Player");
+  vidas = Number(localStorage.getItem('Vidas'));
+  puntuacion = Number(localStorage.getItem('Puntuacion'));
 
   ngOnInit(): void {
     if(localStorage.getItem("Player") == null){
@@ -34,12 +37,30 @@ export class AhorcadoComponent implements OnInit {
 
 
   send(){
+     let validation = false;
     for(let i = 0; i < this.result.length; i++){
       if(this.result[i].word.toLocaleLowerCase() == this.form.value.text.toLocaleLowerCase()){
         this.result[i].validation = true;
+        this.puntuacion += 100;
+        validation = true;
+        localStorage.setItem('Puntuacion', String(this.puntuacion));
       }else{
-        this.intentos--;
+        
       }
+    }
+    if(this.vidas == 0){
+      alert("Perdiste gracias por jugar obtuviste " + this.puntuacion + " puntos");
+        this.router.navigate(['/Home']);
+        localStorage.clear();
+        this.http.post(GlobalConstants.API+"/player",{name: this.player , score: this.puntuacion}).subscribe(
+      (data:any) => {
+        return console.log(data);
+      }
+    );
+      }
+    if(!validation){
+      this.vidas--;
+      localStorage.setItem('Vidas', String(this.vidas));
     }
   }
 

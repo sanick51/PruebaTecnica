@@ -46,10 +46,27 @@ app.get('/api/ahorcado', (req , res) => {
   );
 });
 
+app.get('/api/Score', (req , res) => {
+  connection.query('SELECT * FROM `WINNERS` ORDER by 2 DESC LIMIT 10;', function (error, results, fields) {
+    if (error) throw error;
+    res.send(results);
+  }
+  );
+});
+
 app.post('/api/player/add', (req , res) => {
   console.log(req.body);
   jugador = req.body.name;
   console.log(jugador);
+});
+
+app.post('/api/player', (req, res) => {
+  console.log(req.body);
+  connection.query('INSERT INTO WINNERS (NAME , SCORE) VALUES ("'+req.body.name+'", '+ req.body.score + ')', function (error, results, fields) {
+    if (error) throw error;
+    res.send('ok');
+  }
+  );
 });
 
 function calculateWiner(machineHand, hand){
